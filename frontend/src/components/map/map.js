@@ -14,8 +14,6 @@ function MyMap(props) {
   const setPickUp = props.sPU;
   const drop = props.d;
   const setDrop = props.sD;
-  const isDriver = props.iD;
-  const setStep = props.sS;
   const isMapInit = props.mI;
 
   const [map,setMap] = useState();
@@ -43,17 +41,18 @@ function MyMap(props) {
       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' />
       <ZoomControl position="bottomright" />
             
-      {!isDriver && 
+      {/* {!isDriver &&  */}
       <React.Fragment>
         {/* Customer */}
         <CircleMarker center={[pickUp.lat, pickUp.lng]} radius={100} />
         {/* Driver(s) */}
         <Marker position={[pickUp.lat+0.03, pickUp.lng+0.03]} icon={driver} />
         <Marker position={[pickUp.lat-0.01, pickUp.lng-0.01]} icon={driver} />
-      </React.Fragment>}
+      </React.Fragment>
+      {/* } */}
 
       {/* pickUp/Drop */}
-      {!isDriver &&
+      {/* {!isDriver && */}
       <React.Fragment>
         <ReactLeafletSearch 
         position="topright" 
@@ -67,7 +66,7 @@ function MyMap(props) {
         markerIcon={customer}
         onChange={(e) => {
           setPickUp({address: e.info, lat: e.latLng.lat, lng: e.latLng.lng});
-          setStep((prev) => prev+1);
+          // setStep((prev) => prev+1);
         }}
         />
         <ReactLeafletSearch 
@@ -80,22 +79,23 @@ function MyMap(props) {
         showPopup={false}
         onChange={(e) => {
           setDrop({address: e.info, lat: e.latLng.lat, lng: e.latLng.lng});
-          setStep((prev) => prev+1);
+          // setStep((prev) => prev+1);
         }}
         />
       </React.Fragment>
-      }
+      {/* } */}
 
-      {isDriver && 
+      {/* {isDriver &&  */}
       <React.Fragment>
         <CircleMarker center={[pickUp.lat, pickUp.lng]} radius={100} />
         <Marker position={[pickUp.lat, pickUp.lng]}/>
         <Marker position={[drop.lat, drop.lng]} />
-      </React.Fragment>}
+      </React.Fragment>
+      {/* } */}
 
       {/* Path */}
-      {isMapInit*isDriver && 
-      <Routing map={map} pickUp={pickUp} drop={drop} />}
+      {/* {isMapInit*isDriver && 
+      <Routing map={map} pickUp={pickUp} drop={drop} />} */}
       
     </Map>
     </React.Fragment>
