@@ -5,9 +5,10 @@ import { geolocated } from 'react-geolocated';
 import ReactLeafletSearch from "react-leaflet-search";
 import Routing from './RoutingMachine';
 import '../../index.css';
+import 'leaflet/dist/leaflet.css';
 
-const DEFAULT_LATITUDE = 19.3008;
-const DEFUALT_LONGITUDE = 72.8467;
+const DEFAULT_LATITUDE = 19.0760;
+const DEFUALT_LONGITUDE = 72.8777;
 
 function MyMap(props) {
   const pickUp = props.pU;
@@ -46,8 +47,8 @@ function MyMap(props) {
         {/* Customer */}
         <CircleMarker center={[pickUp.lat, pickUp.lng]} radius={100} />
         {/* Driver(s) */}
-        <Marker position={[pickUp.lat+0.03, pickUp.lng+0.03]} icon={driver} />
-        <Marker position={[pickUp.lat-0.01, pickUp.lng-0.01]} icon={driver} />
+        {/* <Marker position={[pickUp.lat+0.03, pickUp.lng+0.03]} icon={driver} />
+        <Marker position={[pickUp.lat-0.01, pickUp.lng-0.01]} icon={driver} /> */}
       </React.Fragment>
       {/* } */}
 
@@ -55,21 +56,23 @@ function MyMap(props) {
       {/* {!isDriver && */}
       <React.Fragment>
         <ReactLeafletSearch 
-        position="topright" 
+        className="custom-style"
+        position="topleft" 
         provider="OpenStreetMap" 
-        openSearchOnLoad={true} 
-        inputPlaceholder="Enter Pickup Location"
+        openSearchOnLoad={false} 
+        inputPlaceholder="Enter Location"
         closeResultsOnClick={true}
-        zoom={12}
+        zoom={14}
         search={pickUp.info}
         showPopup={false}
+        showMarker={true}
         markerIcon={customer}
         onChange={(e) => {
           setPickUp({address: e.info, lat: e.latLng.lat, lng: e.latLng.lng});
           // setStep((prev) => prev+1);
         }}
         />
-        <ReactLeafletSearch 
+        {/* <ReactLeafletSearch 
         position="topright" 
         provider="OpenStreetMap" 
         openSearchOnLoad={true} 
@@ -81,15 +84,15 @@ function MyMap(props) {
           setDrop({address: e.info, lat: e.latLng.lat, lng: e.latLng.lng});
           // setStep((prev) => prev+1);
         }}
-        />
+        /> */}
       </React.Fragment>
       {/* } */}
 
       {/* {isDriver &&  */}
       <React.Fragment>
         <CircleMarker center={[pickUp.lat, pickUp.lng]} radius={100} />
-        <Marker position={[pickUp.lat, pickUp.lng]}/>
-        <Marker position={[drop.lat, drop.lng]} />
+        {/* <Marker position={[pickUp.lat, pickUp.lng]}/> */}
+        {/* <Marker position={[drop.lat, drop.lng]} /> */}
       </React.Fragment>
       {/* } */}
 

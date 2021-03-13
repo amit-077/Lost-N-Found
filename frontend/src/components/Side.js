@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Accordion, Container, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Side.css"
+import MyMap from './map/map';
 
 function Side() {
+  const pickUpInit = {address:'', lat:0, lng:0};
+  const [pickUp,setPickUp] = useState(pickUpInit);
+  const dropInit = {address:'', lat:0, lng:0};
+  const [drop,setDrop] = useState(dropInit);
+  const [mapInit, setMapInit] = useState(false);
 
   const brands = [
     { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
@@ -41,7 +47,17 @@ function Side() {
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
-                <Card.Body style={{color: 'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Card.Body>
+                <Card.Body style={{color: 'black', textAlign: 'center', padding: '0'}}>
+                  {/* <div style={{width: '1rem', height: '100px',textAlign: 'center'}}> */}
+                    <MyMap
+                      pU={pickUp} 
+                      sPU={setPickUp} 
+                      d={drop} 
+                      sD={setDrop} 
+                      mI={mapInit}
+                    />
+                  {/* </div> */}
+                </Card.Body>
               </Accordion.Collapse>
             </Card>
             <Card>

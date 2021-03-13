@@ -11,11 +11,9 @@ import Sidebar from './Sidebar';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-
-
 const myAppName = "LOST N FOUND";
 const myDescription = "";
-const myColor = "#686CFD";
+const myColor = "#343a40";
 
 const paymentHandler = async (amnt) => {
 	const orderAmount = amnt;
