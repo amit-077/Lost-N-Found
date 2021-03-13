@@ -1,7 +1,7 @@
 export const ProductSchema = `
     type location {
         type: String!
-        coordinates: [Number!]!
+        coordinates: [Float!]!
     }
 
     type Product {
@@ -40,5 +40,4 @@ export const ProductSchema = `
         description: String!
         location: location!
     }
-}
 `;

@@ -1,6 +1,5 @@
 import Application from '../../models/applicationModel.js';
 import { loggedin, admin } from '../../utils/verifyUser.js';
-import pincode from '../../pincodes.js';
 
 // PS: After .save(), user & product are not populated and can't be queried via graphql
 

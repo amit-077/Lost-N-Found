@@ -1,27 +1,35 @@
-import React, { useState } from 'react'
-import './Navbar.css'
-import { Route, Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, Container, NavDropdown, Button, Accordion, Card, Form } from 'react-bootstrap'
+import React, { useState } from 'react';
+import './Navbar.css';
+import { Route, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import {
+	Navbar,
+	Nav,
+	Container,
+	NavDropdown,
+	Button,
+	Accordion,
+	Card,
+	Form,
+} from 'react-bootstrap';
 import Side from './Side';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
-import Sidebar from './Sidebar';
 
 const Header = () => {
 	const dispatch = useDispatch();
 
-  const [visible, setVisible] = useState(false);
+	const [visible, setVisible] = useState(false);
 
-  const [brand, setBrand] = useState('');
+	const [brand, setBrand] = useState('');
 	const userLogin = useSelector((state) => state.userLogin);
 
 	const editSearch = (e) => {
 		setBrand(e.target.value);
 	};
 
-  const { userInfo } = userLogin
+	const { userInfo } = userLogin;
 
 	const logoutHandler = () => {
 		dispatch(logout());
