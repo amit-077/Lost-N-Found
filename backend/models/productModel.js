@@ -4,7 +4,7 @@ import mongoose_fuzzy_searching from 'mongoose-fuzzy-searching';
 const questionSchema = mongoose.Schema(
   {
     question: { type: String, required: true },
-    file: { type: String },
+    ans: { type: String },
     type: { type: String, required: true },
   },
   {
@@ -48,11 +48,6 @@ const productSchema = mongoose.Schema(
       coordinates: [],
     },
     questions: [questionSchema],
-    discount: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
   },
   {
     timestamps: true,
