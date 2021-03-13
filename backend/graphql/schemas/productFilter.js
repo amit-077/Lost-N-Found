@@ -1,8 +1,8 @@
 export const ProductFilterSchema = `
     input FilterInput {
-        brand: Brand
-        category: Category
-        subcategory: SubCategory
-        location: location
+        brand: String
+        category: String
+        subcategory: String
+        location: locationInput
     }
 `;

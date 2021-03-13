@@ -40,9 +40,10 @@ export const login = (email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			`
-      query authUser ($email: ${email}, $password: ${password}) {
-        authUser (email: $email, password: $password) {
+			'/graphql',
+			JSON.stringify({
+				query: ` {
+        authUser (email: "${email}", password: "${password}")  {
             _id
             name
             phoneNo
@@ -51,15 +52,16 @@ export const login = (email, password) => async (dispatch) => {
             isAdmin
             token
         }
-    }
-      `,
-			{},
+      }`,
+			}),
 			config
 		);
 
+		console.log(data);
+
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
-			payload: data.data,
+			payload: data.data.authUser,
 		});
 
 		localStorage.setItem('userInfo', JSON.stringify(data));
@@ -107,7 +109,9 @@ export const register = (name, email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			`
+			'/graphql',
+			JSON.stringify(
+				`
         mutation registerUser ($userInput: ${userInput}) {
           registerUser (userInput: $userInput) {
               _id
@@ -119,8 +123,8 @@ export const register = (name, email, password) => async (dispatch) => {
               token
           }
         }
-      `,
-			{},
+      `
+			),
 			config
 		);
 
@@ -162,8 +166,10 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.get(
-			`
+		const { data } = await axios.post(
+			'/graphql',
+			JSON.stringify(
+				`
       query getUserById ($userId: ${id}) {
         getUserById (userId: $userId) {
             _id
@@ -175,7 +181,8 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             token
         }
       }
-    `,
+    `
+			),
 			config
 		);
 
@@ -215,8 +222,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.put(
-			`
+		const { data } = await axios.post(
+			'/graphql',
+			JSON.stringify(
+				`
       mutation updateUserProfile ($userInput: ${user}) {
         updateUserProfile (userInput: $userInput) {
             _id
@@ -228,8 +237,8 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             token
         }
       }
-    `,
-			user,
+    `
+			),
 			config
 		);
 
@@ -273,8 +282,10 @@ export const listUsers = () => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.get(
-			`
+		const { data } = await axios.post(
+			'/graphql',
+			JSON.stringify(
+				`
       query getUsers {
         getUsers {
             _id
@@ -286,7 +297,8 @@ export const listUsers = () => async (dispatch, getState) => {
             token
         }
       }
-    `,
+    `
+			),
 			config
 		);
 
@@ -325,14 +337,17 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 			},
 		};
 
-		await axios.delete(
-			`
+		await axios.post(
+			'/graphql',
+			JSON.stringify(
+				`
       mutation deleteUser ($userId: ${id}) {
         deleteUser (userId: $userId) {
             msg
         }
       }
-    `,
+    `
+			),
 			config
 		);
 
@@ -374,8 +389,10 @@ export const updateUser = (user) => async (dispatch, getState) => {
 			isAdmin: true,
 		};
 
-		const { data } = await axios.put(
-			`
+		const { data } = await axios.post(
+			'/graphql',
+			JSON.stringify(
+				`
         mutation updateUser ($userId: ${user._id}, $userInput: ${userInput}) {
           updateUser (userId: $userId, userInput: $userInput) {
               _id
@@ -387,8 +404,8 @@ export const updateUser = (user) => async (dispatch, getState) => {
               token
           }
         }
-      `,
-			user,
+      `
+			),
 			config
 		);
 

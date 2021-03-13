@@ -9,9 +9,9 @@ export const ApplicationSchema = `
     }
         
     input ApplicationInput {
-        product:          Product!
+        product:          ID!
         isReturned:       Boolean!
         returnedAt:       String
-        questions:        [Question!]!
+        questions:        [QuestionInput!]!
     }
 `;
