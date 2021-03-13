@@ -4,24 +4,7 @@ import { Route, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, Container, NavDropdown, Button, Accordion, Card, Form } from 'react-bootstrap'
-import SearchBox from './SearchBox'
-import { logout } from '../actions/userActions'
 import Side from './Side';
-import React, { useState } from 'react';
-import './Navbar.css';
-import { Route, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap';
-import {
-	Navbar,
-	Nav,
-	Container,
-	NavDropdown,
-	Button,
-	Accordion,
-	Card,
-	Form,
-} from 'react-bootstrap';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 import Sidebar from './Sidebar';
