@@ -8,6 +8,67 @@ import Side from './Side';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 import Sidebar from './Sidebar';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+
+
+
+const myAppName = "LOST N FOUND";
+const myDescription = "";
+const myColor = "#686CFD";
+
+const paymentHandler = async (amnt) => {
+	const orderAmount = amnt;
+  const API_URL = 'http://localhost:5000/'
+  // e.preventDefault();
+  const orderUrl = `${API_URL}order`;
+  const response = await axios.get(orderUrl,
+     { params: { amount: orderAmount } });
+  const { data } = response;
+  const options = {
+    key: process.env.RAZOR_PAY_TEST_KEY,
+    name: myAppName,
+    description: myDescription,
+    order_id: data.id,
+    
+    handler: async (response) => {
+      try {
+       const paymentId = response.razorpay_payment_id;
+       const url = `${API_URL}capture/${paymentId}`;
+       const captureResponse = await axios.post(url, {})
+       console.log(captureResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    theme: {
+      color: myColor,
+    },
+  };
+  const rzp1 = new window.Razorpay(options);
+  rzp1.open();
+};
+
+const handleDonate = () => {
+	Swal.mixin({
+		input: 'number',
+		confirmButtonText: 'Pay &rarr;',
+		allowOutsideClick: false,
+		allowEscapeKey: false,
+		// progressSteps: ['1']
+	}).queue([
+		{
+			title: 'Support Us',
+			text: 'Enter the amount'
+		},
+	]).then((result) => {
+		if (result.value) {
+			const answers = result.value;
+			console.log(answers[0]);		
+			paymentHandler(answers[0]);
+	 	}
+  })
+};
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -156,12 +217,12 @@ const Header = () => {
 						/>
 
 						<Nav className="ml-auto">
-							<LinkContainer to="/cart">
-								<Nav.Link>
-									<i className="fas fa-shopping-cart"></i>{' '}
-									Cart
+							{/* <LinkContainer to="/cart"> */}
+								<Nav.Link onClick={() => handleDonate()}>
+									<i className="fas fa-donate"></i>{' '}
+									Donate
 								</Nav.Link>
-							</LinkContainer>
+							{/* </LinkContainer> */}
 
 							{userInfo ? (
 								<NavDropdown
