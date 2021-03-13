@@ -99,3 +99,12 @@
   .acc-search {
     width: 50px;
   }
+
+  header {
+    top: 0px
+  }
+
+  .nav-top {
+    position: absolute;
+    top: 0px;
+  }
