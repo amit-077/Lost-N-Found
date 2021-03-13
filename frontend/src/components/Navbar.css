@@ -14,7 +14,7 @@
   
   .nav-menu {
     background-color: #343a40;
-    width: 250px;
+    width: 22rem;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -37,6 +37,9 @@
     padding: 8px 0px 8px 16px;
     list-style: none;
     height: 60px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1.5rem;
   }
   
   .nav-text a {
@@ -70,4 +73,29 @@
   
   span {
     margin-left: 16px;
+  }
+
+  .acc {
+    margin: 3rem auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+  }
+
+  .cards {
+    margin: 1rem 0;
+    width: 100%;
+    display: flex;
+  }
+
+  .acc-button {
+    border-radius: 10px;
+    width: 40%;
+    margin: 3%;
+
+  }
+
+  .acc-search {
+    width: 50px;
   }
