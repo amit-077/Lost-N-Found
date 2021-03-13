@@ -17,27 +17,32 @@ export const ProductSchema = `
         location: location!
     }
 
+    input locationInput {
+        type: String!
+        coordinates: [Float!]!
+    }
+
     input ProductInput {
         name: String!
-        user: User!
+        user: ID!
         image: String!
-        brand: Brand!
-        category: Category!
-        subcategory: SubCategory!
-        questions: [Question!]!
+        brand: String!
+        category: ID!
+        subcategory: ID!
+        questions: [QuestionInput!]!
         description: String!
-        location: location!
+        location: locationInput!
     }
 
     input updateProduct {
         name: String!
-        user: User!
+        user: ID!
         image: String!
-        brand: Brand!
-        category: Category!
-        subcategory: SubCategory!
-        questions: [Question!]!
+        brand: String!
+        category: ID!
+        subcategory: ID!
+        questions: [QuestionInput!]!
         description: String!
-        location: location!
+        location: locationInput!
     }
 `;
