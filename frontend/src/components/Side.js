@@ -1,92 +1,77 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import { Accordion, Container, Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./Side.css"
 
-const SidebarStyled = styled.div`
-  position: fixed;
-  z-index: 555;
-  top: 0;
-  left: 0;
-  width: 80%;
-  background-color: #333;
-  padding: 1rem;
-  color: #fff;
-  max-width: 300px;
-  height: 100%;
-  transform: translateX(${props => (props.show ? "0" : "-100%")});
-  transition: all 0.3s ease-in-out;
-`;
+function Side() {
 
-const SidebarWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
+  const brands = [
+    { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
+  ];
 
-const Link = styled.a`
-  text-decoration: none;
-  color: #fff;
-  font-family: inherit;
-  padding: 1em 2rem;
-  font-size: 13px;
+  const Categories = [
+    { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
+  ];
 
-  &:first-of-type {
-    margin-top: 50px;
-  }
-`;
+  const brandButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
 
-const CloseIcon = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  padding: 10px 35px 16px 0px;
+  const categoriesButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
 
-  & span,
-  & span:before,
-  & span:after {
-    cursor: pointer;
-    border-radius: 1px;
-    height: 3px;
-    width: 30px;
-    background: white;
-    position: absolute;
-    display: block;
-    content: "";
-  }
 
-  & span {
-    background-color: transparent;
-  }
-
-  & span:before {
-    top: 0;
-    transform: rotate(45deg);
-  }
-
-  & span:after {
-    top: 0;
-    transform: rotate(-45deg);
-  }
-`;
-
-const Side = ({ show, setIsOpened }) => {
+  const [sidebar, setSidebar] = useState(true);
+  const showSidebar = () => setSidebar(!sidebar);
   return (
-    <SidebarStyled show={show ? 1 : 0}>
-      <SidebarWrapper>
-        <CloseIcon
-          onClick={() => {
-            setIsOpened(false);
-            console.log("Close icon clicked, close sidebar");
-          }}
-        >
-          <span />
-        </CloseIcon>
-        <Link href="link here">One example link</Link>
-        <Link href="link here">Another example link</Link>
-        <Link href="link here">And another example link</Link>
-      </SidebarWrapper>
-    </SidebarStyled>
+    <nav className={sidebar ? "sidebar active" : "sidebar"}>
+      <button className="hamburger" type="button" onClick={showSidebar}>
+        <div></div>
+      </button>
+      <ul> 
+        <Container className='justify-content-md-center'>
+          <div className='side-heading'>
+          <h3 style={{ 'color': 'white' }}>Filters</h3>
+          </div>
+          </Container>
+
+          <div className='acc-container'>
+          <Accordion defaultActiveKey="0">
+            <Card>
+              <Card.Header className='justify-content-center'>
+                <Accordion.Toggle as={Button} variant='light' eventKey="0">
+                  Location
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body style={{color: 'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="light" eventKey="1">
+                  Categories
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>{ categoriesButton}</Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="light" eventKey="2">
+                  Brands
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="2">
+                <Card.Body>{brandButton}</Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        
+          </div>
+          
+  
+      </ul>
+    </nav>
   );
-};
+}
 
 export default Side;
