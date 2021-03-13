@@ -136,5 +136,4 @@ export {
   updateApplicationToReturned,
   getMyApplications,
   getApplications,
-  isDeliverable,
 };
