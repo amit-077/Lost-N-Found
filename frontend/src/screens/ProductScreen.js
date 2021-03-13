@@ -12,9 +12,71 @@ import {
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 import ApplicationComponent from '../components/ApplicationComponent'
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import MyMap from '../components/map/map2';
+
+const myAppName = "LOST N FOUND";
+const myDescription = "";
+const myColor = "#343a40";
+
+const paymentHandler = async (amnt) => {
+	const orderAmount = amnt;
+  const API_URL = 'http://localhost:5000/'
+  // e.preventDefault();
+  const orderUrl = `${API_URL}order`;
+  const response = await axios.get(orderUrl,
+     { params: { amount: orderAmount } });
+  const { data } = response;
+  const options = {
+    key: process.env.RAZOR_PAY_TEST_KEY,
+    name: myAppName,
+    description: myDescription,
+    order_id: data.id,
+    
+    handler: async (response) => {
+      try {
+       const paymentId = response.razorpay_payment_id;
+       const url = `${API_URL}capture/${paymentId}`;
+       const captureResponse = await axios.post(url, {})
+       console.log(captureResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    theme: {
+      color: myColor,
+    },
+  };
+  const rzp1 = new window.Razorpay(options);
+  rzp1.open();
+};
+
+const handleGift = () => {
+	Swal.mixin({
+		input: 'number',
+		confirmButtonText: 'Pay &rarr;',
+		allowOutsideClick: false,
+		allowEscapeKey: false,
+		// progressSteps: ['1']
+	}).queue([
+		{
+			title: 'Show your love',
+			text: 'Enter the amount'
+		},
+	]).then((result) => {
+		if (result.value) {
+			const answers = result.value;
+			console.log(answers[0]);		
+			paymentHandler(answers[0]);
+	 	}
+  })
+};
 
 const ProductScreen = ({ history, match }) => {
-
+  const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
+  const [pickUp,setPickUp] = useState(pickUpInit);
+  
   //Email id of User Logged In
   const [userName,setUsername] = useState("")
   const founder = ""
@@ -63,6 +125,10 @@ const ProductScreen = ({ history, match }) => {
     )
   }
 
+  const handleChat = () => {
+
+  };
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -104,26 +170,32 @@ const ProductScreen = ({ history, match }) => {
 
                   <ListGroup.Item>
                     <Button
-                      onClick={addToCartHandler}
+                      onClick={() => handleChat()}
                       className='btn-block'
                       type='button'
-                      disabled={product.countInStock === 0}
                     >
-                      Add To Cart
+                      <i class="fas fa-comments fa-lg" /> &nbsp;Contact Founder
                     </Button>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Button
-                      onClick={addToCartHandler}
+                      onClick={() => handleGift()}
                       className='btn-block'
                       type='button'
-                      disabled={product.countInStock === 0}
                     >
-                      Add To Cart
+                      <i class="fas fa-gift fa-lg" /> &nbsp;Gift Founder
                     </Button>
                   </ListGroup.Item>
                 </ListGroup>
+              </Card>
+              <br />
+              <Card>
+                <ListGroup variant='flush'>
+                    <MyMap
+                      pU={pickUp} 
+                    />
+                 </ListGroup>
               </Card>
             </Col>
           </Row>

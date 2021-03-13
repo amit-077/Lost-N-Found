@@ -34,9 +34,11 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
 			`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
 		);
 
+		console.log(data);
+
 		dispatch({
 			type: PRODUCT_LIST_SUCCESS,
-			payload: data.data,
+			payload: data,
 		});
 	} catch (error) {
 		dispatch({
@@ -57,7 +59,7 @@ export const listProductDetails = (id) => async (dispatch) => {
 
 		dispatch({
 			type: PRODUCT_DETAILS_SUCCESS,
-			payload: data.data,
+			payload: data,
 		});
 	} catch (error) {
 		dispatch({

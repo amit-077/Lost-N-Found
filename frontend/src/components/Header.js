@@ -16,7 +16,6 @@ import {
 import Side from './Side';
 import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
-import Sidebar from './Sidebar';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
