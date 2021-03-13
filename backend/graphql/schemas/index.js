@@ -38,7 +38,7 @@ export default buildSchema(`
         getProductBySubCategory(subCategoryId: ID!): [Product!]!
         getProductById(id: ID!): [Product!]!
         deleteProduct(id: ID!): Product!
-        getProductQnAs(productId: ID!): [Question]
+        getProductQs(productId: ID!): [Question]
         
         searchProduct(searchTerm: String!): [Product!]!
         filterProducts(searchTerm: String!, filters: FilterInput): [Product!]!
