@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 
+const questionSchema = mongoose.Schema(
+  {
+    question: { type: String, required: true },
+    ans: { type: String },
+    type: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const applicationSchema = mongoose.Schema(
   {
     user: {
@@ -7,34 +18,20 @@ const applicationSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    item: {
+    product: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Product',
     },
-    taxPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    shippingPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    totalPrice: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    isPaid: {
+    isReturned: {
       type: Boolean,
       required: true,
       default: false,
     },
-    paidAt: {
+    returnedAt: {
       type: Date,
     },
+    questions: [questionSchema],
   },
   {
     timestamps: true,
