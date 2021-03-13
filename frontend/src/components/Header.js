@@ -7,16 +7,29 @@ import { Navbar, Nav, Container, NavDropdown, Button, Accordion, Card, Form } fr
 import SearchBox from './SearchBox'
 import { logout } from '../actions/userActions'
 import Sidebar from './Sidebar';
+import BrandList from './BrandList/BrandList';
 
 const Header = () => {
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin)
+  const [brand, setBrand] = useState('')
+
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const editSearch = (e) => {
+    setBrand(e.target.value)
+  }
+
+  const dynamicSearch = (e) => {
+    return BrandList.names.filter(name => name.toLowercase().includes(brand.toLowerCase()))
+  }
+
   const { userInfo } = userLogin
 
   const logoutHandler = () => {
     dispatch(logout())
   }
+
 
   return (
     <header>
