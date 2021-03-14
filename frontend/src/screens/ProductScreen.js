@@ -76,6 +76,8 @@ const handleGift = () => {
 const ProductScreen = ({ history, match }) => {
   const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
   const [pickUp,setPickUp] = useState(pickUpInit);
+
+  const [call,setCall] = useState({});
   
   //Email id of User Logged In
   const [userName,setUsername] = useState("")
@@ -126,7 +128,7 @@ const ProductScreen = ({ history, match }) => {
   }
 
   const handleChat = () => {
-
+    window.location.href=`tel:+${call}`;
   };
 
   return (
@@ -174,7 +176,7 @@ const ProductScreen = ({ history, match }) => {
                       className='btn-block'
                       type='button'
                     >
-                      <i class="fas fa-comments fa-lg" /> &nbsp;Contact Founder
+                      <i class="fas fa-phone fa-lg" /> &nbsp;Contact Founder
                     </Button>
                   </ListGroup.Item>
 

@@ -8,8 +8,14 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import MyMap from '../components/map/map3';
 
 const ProductEditScreen = ({ match, history }) => {
+  const pickUpInit = {address:'', lat:0, lng:0};
+  const [pickUp,setPickUp] = useState(pickUpInit);
+  const dropInit = {address:'', lat:0, lng:0};
+  const [drop,setDrop] = useState(dropInit);
+  const [mapInit, setMapInit] = useState(false);
   const productId = match.params.id
 
   const [name, setName] = useState('')
@@ -190,6 +196,37 @@ const ProductEditScreen = ({ match, history }) => {
             </Button>
           </Form>
         )}
+        </Col>
+        <Col xs={12} md={6}>
+          <h1>Location</h1>
+          <Form.Label>Search the locations</Form.Label>
+          <div>
+            <MyMap
+              pU={pickUp} 
+              sPU={setPickUp} 
+              d={drop} 
+              sD={setDrop} 
+              mI={mapInit}
+              sMI={setMapInit}
+            />
+          </div>
+          <br />
+          <Form.Group controlId='name'>
+            <Form.Label>Item's Location</Form.Label>
+            <Form.Control
+              type='name'
+              value={pickUp.address}
+              disabled
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='name'>
+            <Form.Label>Your Location</Form.Label>
+            <Form.Control
+              type='name'
+              value={drop.address}
+              disabled
+            ></Form.Control>
+          </Form.Group>
         </Col>
       </Row>
     </Container>      

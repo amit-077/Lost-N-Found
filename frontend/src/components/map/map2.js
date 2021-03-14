@@ -29,6 +29,14 @@ function MyMap(props) {
       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' />
       <ZoomControl position="bottomright" />
 
+      {/* {isDriver &&  */}
+      <React.Fragment>
+        <CircleMarker center={[latitude, longitude]} radius={70} />
+        {/* <Marker position={[pickUp.lat, pickUp.lng]}/> */}
+        {/* <Marker position={[drop.lat, drop.lng]} /> */}
+      </React.Fragment>
+      {/* } */}
+
     </Map>
     </React.Fragment>
   )
