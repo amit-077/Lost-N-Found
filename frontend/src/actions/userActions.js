@@ -42,17 +42,18 @@ export const login = (email, password) => async (dispatch) => {
 		const { data } = await axios.post(
 			'/graphql',
 			JSON.stringify({
-				query: ` {
-        authUser (email: "${email}", password: "${password}")  {
-            _id
-            name
-            phoneNo
-            email
-            password
-            isAdmin
-            token
-        }
-      }`,
+				query: `
+				{
+					authUser (email: "${email}", password: "${password}")  {
+						_id
+						name
+						phoneNo
+						email
+						password
+						isAdmin
+						token
+					}
+				}`,
 			}),
 			config
 		);
@@ -110,32 +111,32 @@ export const register = (name, email, password) => async (dispatch) => {
 
 		const { data } = await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-        mutation registerUser ($userInput: ${userInput}) {
-          registerUser (userInput: $userInput) {
-              _id
-              name
-              phoneNo
-              email
-              password
-              isAdmin
-              token
-          }
-        }
-      `
-			),
+			JSON.stringify({
+				mutation: `
+				{
+					registerUser (userInput: ${userInput}) {
+						_id
+						name
+						phoneNo
+						email
+						password
+						isAdmin
+						token
+					}
+				}
+				`,
+			}),
 			config
 		);
 
 		dispatch({
 			type: USER_REGISTER_SUCCESS,
-			payload: data.data,
+			payload: data.data.registerUser,
 		});
 
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
-			payload: data.data,
+			payload: data.data.registerUser,
 		});
 
 		localStorage.setItem('userInfo', JSON.stringify(data));
@@ -168,27 +169,27 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 		const { data } = await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-      query getUserById ($userId: ${id}) {
-        getUserById (userId: $userId) {
-            _id
-            name
-            phoneNo
-            email
-            password
-            isAdmin
-            token
-        }
-      }
-    `
-			),
+			JSON.stringify({
+				query: `
+				{
+					getUserById (userId: ${id}) {
+						_id
+						name
+						phoneNo
+						email
+						password
+						isAdmin
+						token
+					}
+				}
+				`,
+			}),
 			config
 		);
 
 		dispatch({
 			type: USER_DETAILS_SUCCESS,
-			payload: data.data,
+			payload: data.data.getUserById,
 		});
 	} catch (error) {
 		const message =
@@ -224,31 +225,32 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
 		const { data } = await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-      mutation updateUserProfile ($userInput: ${user}) {
-        updateUserProfile (userInput: $userInput) {
-            _id
-            name
-            phoneNo
-            email
-            password
-            isAdmin
-            token
-        }
-      }
-    `
-			),
+			JSON.stringify({
+				mutation: `
+			{
+				updateUserProfile (userInput: ${user}) {
+					_id
+					name
+					phoneNo
+					email
+					password
+					isAdmin
+					token
+				}
+			}
+			`,
+			}),
 			config
 		);
 
 		dispatch({
 			type: USER_UPDATE_PROFILE_SUCCESS,
-			payload: data.data,
+			payload: data.data.updateUserProfile,
 		});
+
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
-			payload: data.data,
+			payload: data.data.updateUserProfile,
 		});
 		localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
@@ -284,27 +286,27 @@ export const listUsers = () => async (dispatch, getState) => {
 
 		const { data } = await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-      query getUsers {
-        getUsers {
-            _id
-            name
-            phoneNo
-            email
-            password
-            isAdmin
-            token
-        }
-      }
-    `
-			),
+			JSON.stringify({
+				query: `
+				{
+					getUsers {
+						_id
+						name
+						phoneNo
+						email
+						password
+						isAdmin
+						token
+					}
+				}
+				`,
+			}),
 			config
 		);
 
 		dispatch({
 			type: USER_LIST_SUCCESS,
-			payload: data.data,
+			payload: data.data.getUsers,
 		});
 	} catch (error) {
 		const message =
@@ -339,15 +341,15 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
 		await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-      mutation deleteUser ($userId: ${id}) {
-        deleteUser (userId: $userId) {
-            msg
-        }
-      }
-    `
-			),
+			JSON.stringify({
+				mutation: `
+				{
+					deleteUser (userId: ${id}) {
+						msg
+					}
+				}
+				`,
+			}),
 			config
 		);
 
@@ -391,27 +393,27 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
 		const { data } = await axios.post(
 			'/graphql',
-			JSON.stringify(
-				`
-        mutation updateUser ($userId: ${user._id}, $userInput: ${userInput}) {
-          updateUser (userId: $userId, userInput: $userInput) {
-              _id
-              name
-              phoneNo
-              email
-              password
-              isAdmin
-              token
-          }
-        }
-      `
-			),
+			JSON.stringify({
+				mutation: `
+				{
+					updateUser (userId: ${user._id}, userInput: ${userInput}) {
+						_id
+						name
+						phoneNo
+						email
+						password
+						isAdmin
+						token
+					}
+				}
+			`,
+			}),
 			config
 		);
 
 		dispatch({ type: USER_UPDATE_SUCCESS });
 
-		dispatch({ type: USER_DETAILS_SUCCESS, payload: data.data });
+		dispatch({ type: USER_DETAILS_SUCCESS, payload: data.data.updateUser });
 
 		dispatch({ type: USER_DETAILS_RESET });
 	} catch (error) {
