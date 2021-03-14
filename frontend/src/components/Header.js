@@ -102,7 +102,7 @@ const Header = () => {
 
 				<Container>
 					<LinkContainer to="/">
-						<Navbar.Brand>Lost N Found</Navbar.Brand>
+						<Navbar.Brand style={{marginLeft: 'auto', marginRight: 'auto'}}>Lost N Found</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
