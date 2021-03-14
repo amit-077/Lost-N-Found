@@ -24,9 +24,7 @@ import {
 } from '../constants/productConstants';
 import { logout } from './userActions';
 
-export const listProducts = (keyword = '', pageNumber = '') => async (
-	dispatch
-) => {
+export const listProducts = (keyword = '') => async (dispatch) => {
 	try {
 		dispatch({ type: PRODUCT_LIST_REQUEST });
 
@@ -36,15 +34,50 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
 			},
 		};
 
-		const { data } = await axios.get(
-			`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+		const { data } = await axios.post(
+			'/graphql',
+			JSON.stringify({
+				query: `{
+				searchProduct (searchTerm: "${keyword}") {
+					_id
+					name
+					user {
+						_id
+						name
+						phoneNo
+					}
+					image
+					brand {
+						_id
+						name
+					}
+					category {
+						_id
+						name
+					}
+					questions {
+						_id
+						question
+						ans
+						type
+					}
+					description
+					location {
+						type
+						coordinates
+					}
+				}
+			}
+			`,
+			}),
+			config
 		);
 
 		console.log(data);
 
 		dispatch({
 			type: PRODUCT_LIST_SUCCESS,
-			payload: data,
+			payload: data.data.searchProduct,
 		});
 	} catch (error) {
 		dispatch({
@@ -81,6 +114,10 @@ export const listProductDetails = (id) => async (dispatch) => {
 					}
 					image
 					brand {
+						_id
+						name
+					}
+					category {
 						_id
 						name
 					}

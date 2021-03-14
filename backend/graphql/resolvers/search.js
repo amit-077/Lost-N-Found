@@ -7,5 +7,9 @@ export const searchProduct = async (args, { req, redis }) => {
     'user brand category subcategory'
   );
 
-  return prods.filter((prod) => prod._doc.confidenceScore > 7);
+  if (args.searchTerm) {
+    return prods.filter((prod) => prod._doc.confidenceScore > 7);
+  } else {
+    return prods;
+  }
 };
