@@ -224,10 +224,10 @@ export const createProduct = () => async (dispatch, getState) => {
 		};
 
 		const { data } = await axios.post(
-			`http://localhost:5000/`,
+			`http://localhost:5000/graphql`,
 			JSON.stringify({
-				mutation: ` {
-					createProduct (productInput: ${dummy}) {
+				query: ` 
+					mutation { createProduct (productInput: "${dummy}") {
 					_id
 					name
 					user {
@@ -256,15 +256,15 @@ export const createProduct = () => async (dispatch, getState) => {
 						coordinates
 					}
 				}
-			}
-		`,
+				}
+			`,
 			}),
 			config
 		);
 
 		dispatch({
 			type: PRODUCT_CREATE_SUCCESS,
-			payload: data.data.createApplication,
+			payload: data.data.createProduct,
 		});
 	} catch (error) {
 		const message =
@@ -298,9 +298,41 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.put(
-			`/api/products/${product._id}`,
-			product,
+		const { data } = await axios.post(
+			`http://localhost:5000/graphql`,
+			JSON.stringify({
+				mutation: ` {
+				updateProduct (productId: "${product._id}", updateProduct: "${product}") {
+					_id
+					name
+					user {
+						_id
+						name
+						phoneNo
+					}
+					image
+					brand {
+						_id
+						name
+					}
+					category {
+						_id
+						name
+					}
+					questions {
+						_id
+						question
+						ans
+						type
+					}
+					description
+					location {
+						type
+						coordinates
+					}
+				}
+			}`,
+			}),
 			config
 		);
 
