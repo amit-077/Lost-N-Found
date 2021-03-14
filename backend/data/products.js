@@ -5,13 +5,12 @@ const products = [
     description:
       'Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working',
     brand: 'Apple',
-    category: 'Use and throw Items(Non reusable Items)',
+    category: 'Electronics & Appliances',
     subcategory: 'default',
-    price: 89.99,
-    countInStock: 3,
-    rating: 0,
-    numReviews: 0,
-    new: true,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
   {
     name: 'iPhone 11 Pro 256GB Memory',
@@ -19,12 +18,12 @@ const products = [
     description:
       'Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life',
     brand: 'Apple',
-    category: 'Use and throw Items(Non reusable Items)',
+    category: 'Electronics & Appliances',
     subcategory: 'default',
-    price: 599.99,
-    countInStock: 10,
-    rating: 0,
-    numReviews: 0,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
   {
     name: 'Cannon EOS 80D DSLR Camera',
@@ -34,11 +33,10 @@ const products = [
     brand: 'Cannon',
     category: 'Home Appliances',
     subcategory: 'default',
-    price: 929.99,
-    countInStock: 0,
-    rating: 0,
-    numReviews: 0,
-    new: true,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
   {
     name: 'Sony Playstation 4 Pro White Version',
@@ -46,12 +44,12 @@ const products = [
     description:
       'The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, music',
     brand: 'Sony',
-    category: 'Cutlery',
+    category: 'Everyday Use Items',
     subcategory: 'default',
-    price: 399.99,
-    countInStock: 10,
-    rating: 0,
-    numReviews: 0,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
   {
     name: 'Logitech G-Series Gaming Mouse',
@@ -59,13 +57,12 @@ const products = [
     description:
       'Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience',
     brand: 'Logitech',
-    category: 'Non Stick Items',
+    category: 'Everyday Use Items',
     subcategory: 'default',
-    price: 49.99,
-    countInStock: 7,
-    rating: 0,
-    numReviews: 0,
-    new: true,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
   {
     name: 'Amazon Echo Dot 3rd Generation',
@@ -73,12 +70,12 @@ const products = [
     description:
       'Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small space',
     brand: 'Amazon',
-    category: 'Cleaning and SanitaryItems',
+    category: 'Cleaning and Sanitary Items',
     subcategory: 'default',
-    price: 29.99,
-    countInStock: 0,
-    rating: 0,
-    numReviews: 0,
+    location: {
+      type: 'Point',
+      coordinates: [19.076, 72.8777],
+    },
   },
 ];
 

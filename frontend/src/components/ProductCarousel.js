@@ -4,7 +4,7 @@ import { Carousel, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader';
 import Message from './Message';
-import { listProducts } from '../actions/productActions';
+import { listTopProducts } from '../actions/productActions';
 
 const ProductCarousel = () => {
 	const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const ProductCarousel = () => {
 	const { loading, error, products } = productTopRated;
 
 	useEffect(() => {
-		dispatch(listProducts());
+		dispatch(listTopProducts());
 	}, [dispatch]);
 
 	return loading ? (
