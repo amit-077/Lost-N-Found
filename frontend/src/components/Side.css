@@ -76,3 +76,18 @@
   width: 40%;
   margin: 5%;
 }
+
+
+@media screen and (max-width: 623px) {
+  .hamburger {
+    border: none;
+    height: 1rem;
+    outline: 0;
+    width: 2rem;
+    position: absolute;
+    right: -2rem;
+    background-color: #343a40;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+  }
+}

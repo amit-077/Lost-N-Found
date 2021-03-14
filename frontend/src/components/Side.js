@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion, Container, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Side.css"
 import MyMap from './map/map';
+import axios from 'axios';
 
 function Side() {
   const pickUpInit = {address:'', lat:0, lng:0};
@@ -10,6 +11,38 @@ function Side() {
   const dropInit = {address:'', lat:0, lng:0};
   const [drop,setDrop] = useState(dropInit);
   const [mapInit, setMapInit] = useState(false);
+
+  let categories = [];
+
+  useEffect(() => {
+    var data = JSON.stringify({
+      query: `query getCategories {
+        getCategories {
+            _id
+            name
+        }
+    }`,
+      variables: {}
+    });
+    
+    var config = {
+      method: 'post',
+      url: '',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      categories = response.data.data.getCategories;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}, [])
 
   const brands = [
     { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
@@ -24,7 +57,7 @@ function Side() {
   const categoriesButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
 
 
-  const [sidebar, setSidebar] = useState(true);
+  const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <nav className={sidebar ? "sidebar active" : "sidebar"}>
