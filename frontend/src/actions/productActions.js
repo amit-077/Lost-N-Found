@@ -24,9 +24,7 @@ import {
 } from '../constants/productConstants';
 import { logout } from './userActions';
 
-export const listProducts = (keyword = '', pageNumber = '') => async (
-	dispatch
-) => {
+export const listProducts = (keyword = '') => async (dispatch) => {
 	try {
 		dispatch({ type: PRODUCT_LIST_REQUEST });
 
@@ -36,15 +34,50 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
 			},
 		};
 
-		const { data } = await axios.get(
-			`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+		const { data } = await axios.post(
+			'http://localhost:5000/graphql',
+			JSON.stringify({
+				query: `{
+				searchProduct (searchTerm: "${keyword}") {
+					_id
+					name
+					user {
+						_id
+						name
+						phoneNo
+					}
+					image
+					brand {
+						_id
+						name
+					}
+					category {
+						_id
+						name
+					}
+					questions {
+						_id
+						question
+						ans
+						type
+					}
+					description
+					location {
+						type
+						coordinates
+					}
+				}
+			}
+			`,
+			}),
+			config
 		);
 
 		console.log(data);
 
 		dispatch({
 			type: PRODUCT_LIST_SUCCESS,
-			payload: data,
+			payload: data.data.searchProduct,
 		});
 	} catch (error) {
 		dispatch({
@@ -67,11 +100,11 @@ export const listProductDetails = (id) => async (dispatch) => {
 			},
 		};
 
-		const { data } = await axios.get(
-			`/graphql`,
+		const { data } = await axios.post(
+			`http://localhost:5000/graphql`,
 			JSON.stringify({
 				query: ` {
-				getProductById (id: ${id}) {
+				getProductById (id: "${id}") {
 					_id
 					name
 					user {
@@ -81,6 +114,10 @@ export const listProductDetails = (id) => async (dispatch) => {
 					}
 					image
 					brand {
+						_id
+						name
+					}
+					category {
 						_id
 						name
 					}
@@ -101,10 +138,11 @@ export const listProductDetails = (id) => async (dispatch) => {
 			}),
 			config
 		);
+		console.log(data.data.getProductById);
 
 		dispatch({
 			type: PRODUCT_DETAILS_SUCCESS,
-			payload: data,
+			payload: data.data.getProductById[0],
 		});
 	} catch (error) {
 		dispatch({
@@ -170,11 +208,63 @@ export const createProduct = () => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.post(`/api/products`, {}, config);
+		const dummy = {
+			user: userInfo._id,
+			name: '',
+			image: '',
+			brand: '',
+			category: 'Miscellaneous',
+			subcategory: 'default',
+			questions: '',
+			location: {
+				type: 'Point',
+				coordinates: [19.076, 72.8777],
+			},
+			description: '',
+		};
+
+		const { data } = await axios.post(
+			`http://localhost:5000/`,
+			JSON.stringify({
+				mutation: ` {
+					createProduct (productInput: ${dummy}) {
+					_id
+					name
+					user {
+						_id
+						name
+						phoneNo
+					}
+					image
+					brand {
+						_id
+						name
+					}
+					category {
+						_id
+						name
+					}
+					questions {
+						_id
+						question
+						ans
+						type
+					}
+					description
+					location {
+						type
+						coordinates
+					}
+				}
+			}
+		`,
+			}),
+			config
+		);
 
 		dispatch({
 			type: PRODUCT_CREATE_SUCCESS,
-			payload: data.data,
+			payload: data.data.createApplication,
 		});
 	} catch (error) {
 		const message =
@@ -285,7 +375,7 @@ export const listTopProducts = () => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{

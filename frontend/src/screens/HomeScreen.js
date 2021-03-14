@@ -7,21 +7,21 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
-import { listTopProducts } from '../actions/productActions';
+import { listProducts } from '../actions/productActions';
 
 const HomeScreen = ({ match }) => {
-	const keyword = match.params.keyword;
+	const keyword = match.params.keyword || '';
 
 	const pageNumber = match.params.pageNumber || 1;
 
 	const dispatch = useDispatch();
 
-	const productList = useSelector((state) => state.productTopRated);
-	const { loading, error, products } = productList;
+	const productList = useSelector((state) => state.productList);
+	const { loading, error, products, page, pages } = productList;
 
 	useEffect(() => {
-		dispatch(listTopProducts());
-	}, [dispatch]);
+		dispatch(listProducts(keyword));
+	}, [dispatch, keyword]);
 
 	return (
 		<>

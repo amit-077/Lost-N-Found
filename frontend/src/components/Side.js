@@ -11,8 +11,8 @@ function Side() {
   const dropInit = {address:'', lat:0, lng:0};
   const [drop,setDrop] = useState(dropInit);
   const [mapInit, setMapInit] = useState(false);
-
-  let categories = [];
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     var data = JSON.stringify({
@@ -27,7 +27,7 @@ function Side() {
     
     var config = {
       method: 'post',
-      url: '',
+      url: 'http://localhost:5000/graphql',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -36,25 +36,74 @@ function Side() {
     
     axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      categories = response.data.data.getCategories;
+      setCategories(response.data.data.getCategories);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    var data1 = JSON.stringify({
+      query: `
+				{
+					getProducts {
+						_id
+						name
+						user {
+							_id
+							name
+						}
+						image
+						brand {
+							_id
+							name
+						}
+						category {
+							_id
+							name
+						}
+						subcategory {
+							_id
+							name
+						}
+						description
+					}
+				}`,
+      variables: {}
+    });
+    
+    var config1 = {
+      method: 'post',
+      url: 'http://localhost:5000/graphql',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data1
+    };
+    
+    axios(config1)
+    .then(function (response) {
+      let myData = [], myBrands = [];
+      myData = response.data.data.getProducts;
+      for(let i=0;i<myData.length;i++) {
+        let flag = 0;
+        for(let j=0;j<myBrands.length;j++) {
+          if(myData[i].brand.name == myBrands[j]) {
+            flag=-1;
+            break;
+          }
+        }
+        if(flag == 0) myBrands.push(myData[i].brand);
+      }
+      setBrands(myBrands);
     })
     .catch(function (error) {
       console.log(error);
     });
 }, [])
 
-  const brands = [
-    { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
-  ];
-
-  const Categories = [
-    { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }, { name: "lsjvnj" }
-  ];
-
   const brandButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
 
-  const categoriesButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
+  const categoriesButton = categories && categories.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
 
 
   const [sidebar, setSidebar] = useState(false);

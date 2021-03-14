@@ -1,57 +1,65 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
-import Rating from '../components/Rating'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import Meta from '../components/Meta'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  listProductDetails,
-  createProductReview,
-} from '../actions/productActions'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
-import ApplicationComponent from '../components/ApplicationComponent'
+	Row,
+	Col,
+	Image,
+	ListGroup,
+	Card,
+	Button,
+	Form,
+} from 'react-bootstrap';
+import Rating from '../components/Rating';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+import Meta from '../components/Meta';
+import {
+	listProductDetails,
+	createProductReview,
+} from '../actions/productActions';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import ApplicationComponent from '../components/ApplicationComponent';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import MyMap from '../components/map/map2';
-import ViewApp from '../components/ViewApp'
+import ViewApp from '../components/ViewApp';
 
-
-const myAppName = "LOST N FOUND";
-const myDescription = "";
-const myColor = "#343a40";
+const myAppName = 'LOST N FOUND';
+const myDescription = '';
+const myColor = '#343a40';
 
 const paymentHandler = async (amnt) => {
 	const orderAmount = amnt;
-  const API_URL = 'http://localhost:5000/'
-  // e.preventDefault();
-  const orderUrl = `${API_URL}order`;
-  const response = await axios.get(orderUrl,
-     { params: { amount: orderAmount } });
-  const { data } = response;
-  const options = {
-    key: process.env.RAZOR_PAY_TEST_KEY,
-    name: myAppName,
-    description: myDescription,
-    order_id: data.id,
-    
-    handler: async (response) => {
-      try {
-       const paymentId = response.razorpay_payment_id;
-       const url = `${API_URL}capture/${paymentId}`;
-       const captureResponse = await axios.post(url, {})
-       console.log(captureResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    theme: {
-      color: myColor,
-    },
-  };
-  const rzp1 = new window.Razorpay(options);
-  rzp1.open();
+	const API_URL = 'http://localhost:5000/';
+	// e.preventDefault();
+	const orderUrl = `${API_URL}order`;
+	const response = await axios.get(orderUrl, {
+		params: { amount: orderAmount },
+	});
+	const { data } = response;
+	const options = {
+		key: process.env.RAZOR_PAY_TEST_KEY,
+		name: myAppName,
+		description: myDescription,
+		order_id: data.id,
+
+		handler: async (response) => {
+			try {
+				const paymentId = response.razorpay_payment_id;
+				const url = `${API_URL}capture/${paymentId}`;
+				const captureResponse = await axios.post(url, {});
+				console.log(captureResponse.data);
+			} catch (err) {
+				console.log(err);
+			}
+		},
+		theme: {
+			color: myColor,
+		},
+	};
+	const rzp1 = new window.Razorpay(options);
+	rzp1.open();
 };
 
 const handleGift = () => {
@@ -61,25 +69,25 @@ const handleGift = () => {
 		allowOutsideClick: false,
 		allowEscapeKey: false,
 		// progressSteps: ['1']
-	}).queue([
-		{
-			title: 'Show your love',
-			text: 'Enter the amount'
-		},
-	]).then((result) => {
-		if (result.value) {
-			const answers = result.value;
-			console.log(answers[0]);		
-			paymentHandler(answers[0]);
-	 	}
-  })
+	})
+		.queue([
+			{
+				title: 'Show your love',
+				text: 'Enter the amount',
+			},
+		])
+		.then((result) => {
+			if (result.value) {
+				const answers = result.value;
+				console.log(answers[0]);
+				paymentHandler(answers[0]);
+			}
+		});
 };
 
 const ProductScreen = ({ history, match }) => {
   const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
   const [pickUp,setPickUp] = useState(pickUpInit);
-
-  const [call,setCall] = useState({});
   
   //Email id of User Logged In
   const [userName,setUsername] = useState("")
@@ -109,7 +117,7 @@ const ProductScreen = ({ history, match }) => {
       setRating(0)
       setComment('')
     }
-    if (!product._id || product._id !== match.params.id) {
+    if (product && (!product._id || product._id !== match.params.id)) {
       dispatch(listProductDetails(match.params.id))
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
@@ -129,7 +137,12 @@ const ProductScreen = ({ history, match }) => {
     )
   }
 
-  const handleChat = () => {
+  useEffect(() => {
+    if(product && product.location)
+    setPickUp({lat: product.location.coordinates[0],lng: product.location.coordinates[1]});
+  }, [product])
+
+  const handleChat = (call) => {
     window.location.href=`tel:+${call}`;
   };
 
@@ -144,19 +157,19 @@ const ProductScreen = ({ history, match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Meta title={product.name} />
+          <Meta title={product && product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={product && product.image} alt={product && product.name} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{product && product.name}</h3>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Description: {product.description}
+                  Description: {product && product.description}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -167,14 +180,14 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Founder:</Col>
                       <Col>
-                        <strong>{founder}</strong>
+                        <strong>{product && product.user && product.user.name}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Button
-                      onClick={() => handleChat()}
+                      onClick={() => handleChat(product && product.user && product.user.phoneNo)}
                       className='btn-block'
                       type='button'
                     >
@@ -220,7 +233,11 @@ const ProductScreen = ({ history, match }) => {
                     <Message variant='danger'>{errorProductReview}</Message>
                   )}
                   {userInfo ? (
-                    userName === founder ? (<div>
+										product &&
+										product.user &&
+										product.user.email &&
+										userInfo.email ===
+											product.user.email ? (<div>
                       <Button
                       onClick={addToCartHandler}
                       className='btn-block'

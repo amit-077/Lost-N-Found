@@ -145,14 +145,12 @@ const deleteUser = async (args, { req, redis }) => {
 // Private/Admin
 const getUserById = async (args, { req, redis }) => {
   try {
-    if (admin(req)) {
-      const user = await User.findById(args.userId).select('-password');
+    const user = await User.findById(args.userId).select('-password');
 
-      if (user) {
-        return user;
-      } else {
-        throw new Error('User not found');
-      }
+    if (user) {
+      return user;
+    } else {
+      throw new Error('User not found');
     }
   } catch (err) {
     console.log(err);

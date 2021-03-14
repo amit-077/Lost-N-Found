@@ -40,7 +40,7 @@ export const login = (email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{
@@ -110,7 +110,7 @@ export const register = (name, email, password) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				mutation: `
 				{
@@ -169,7 +169,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{
@@ -225,7 +225,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				mutation: `
 			{
@@ -286,7 +286,7 @@ export const listUsers = () => async (dispatch, getState) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{
@@ -341,7 +341,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 		};
 
 		await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				mutation: `
 				{
@@ -393,7 +393,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				mutation: `
 				{
