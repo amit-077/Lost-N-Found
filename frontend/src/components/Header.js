@@ -19,40 +19,41 @@ import { logout } from '../actions/userActions';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-const myAppName = "LOST N FOUND";
-const myDescription = "";
-const myColor = "#343a40";
+const myAppName = 'LOST N FOUND';
+const myDescription = '';
+const myColor = '#343a40';
 
 const paymentHandler = async (amnt) => {
 	const orderAmount = amnt;
-  const API_URL = 'http://localhost:5000/'
-  // e.preventDefault();
-  const orderUrl = `${API_URL}order`;
-  const response = await axios.get(orderUrl,
-     { params: { amount: orderAmount } });
-  const { data } = response;
-  const options = {
-    key: process.env.RAZOR_PAY_TEST_KEY,
-    name: myAppName,
-    description: myDescription,
-    order_id: data.id,
-    
-    handler: async (response) => {
-      try {
-       const paymentId = response.razorpay_payment_id;
-       const url = `${API_URL}capture/${paymentId}`;
-       const captureResponse = await axios.post(url, {})
-       console.log(captureResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    theme: {
-      color: myColor,
-    },
-  };
-  const rzp1 = new window.Razorpay(options);
-  rzp1.open();
+	const API_URL = 'http://localhost:5000/';
+	// e.preventDefault();
+	const orderUrl = `${API_URL}order`;
+	const response = await axios.get(orderUrl, {
+		params: { amount: orderAmount },
+	});
+	const { data } = response;
+	const options = {
+		key: process.env.RAZOR_PAY_TEST_KEY,
+		name: myAppName,
+		description: myDescription,
+		order_id: data.id,
+
+		handler: async (response) => {
+			try {
+				const paymentId = response.razorpay_payment_id;
+				const url = `${API_URL}capture/${paymentId}`;
+				const captureResponse = await axios.post(url, {});
+				console.log(captureResponse.data);
+			} catch (err) {
+				console.log(err);
+			}
+		},
+		theme: {
+			color: myColor,
+		},
+	};
+	const rzp1 = new window.Razorpay(options);
+	rzp1.open();
 };
 
 const handleDonate = () => {
@@ -62,18 +63,20 @@ const handleDonate = () => {
 		allowOutsideClick: false,
 		allowEscapeKey: false,
 		// progressSteps: ['1']
-	}).queue([
-		{
-			title: 'Support Us',
-			text: 'Enter the amount'
-		},
-	]).then((result) => {
-		if (result.value) {
-			const answers = result.value;
-			console.log(answers[0]);		
-			paymentHandler(answers[0]);
-	 	}
-  })
+	})
+		.queue([
+			{
+				title: 'Support Us',
+				text: 'Enter the amount',
+			},
+		])
+		.then((result) => {
+			if (result.value) {
+				const answers = result.value;
+				console.log(answers[0]);
+				paymentHandler(answers[0]);
+			}
+		});
 };
 
 const Header = () => {
@@ -95,14 +98,17 @@ const Header = () => {
 	};
 
 	return (
-    <header>
-     
+		<header>
 			<Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
-        <Side />
+				<Side />
 
 				<Container>
 					<LinkContainer to="/">
-						<Navbar.Brand style={{marginLeft: 'auto', marginRight: 'auto'}}>Lost N Found</Navbar.Brand>
+						<Navbar.Brand
+							style={{ marginLeft: 'auto', marginRight: 'auto' }}
+						>
+							Lost N Found
+						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
@@ -114,10 +120,9 @@ const Header = () => {
 
 						<Nav className="ml-auto">
 							{/* <LinkContainer to="/cart"> */}
-								<Nav.Link onClick={() => handleDonate()}>
-									<i className="fas fa-donate"></i>{' '}
-									Donate
-								</Nav.Link>
+							<Nav.Link onClick={() => handleDonate()}>
+								<i className="fas fa-donate"></i> Donate
+							</Nav.Link>
 							{/* </LinkContainer> */}
 
 							{userInfo ? (
@@ -141,13 +146,8 @@ const Header = () => {
 									</Nav.Link>
 								</LinkContainer>
 							)}
-							{userInfo && userInfo.isAdmin && (
-								<NavDropdown title="Admin" id="adminmenu">
-									<LinkContainer to="/admin/userlist">
-										<NavDropdown.Item>
-											Users
-										</NavDropdown.Item>
-									</LinkContainer>
+							{userInfo && (
+								<NavDropdown title="Navigate" id="adminmenu">
 									<LinkContainer to="/admin/productlist">
 										<NavDropdown.Item>
 											Products

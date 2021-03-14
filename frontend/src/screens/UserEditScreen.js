@@ -14,6 +14,7 @@ const UserEditScreen = ({ match, history }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
+  const [mobile, setMobile] = useState('');
 
   const dispatch = useDispatch()
 
@@ -70,7 +71,17 @@ const UserEditScreen = ({ match, history }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
-            </Form.Group>
+                </Form.Group>
+                
+                <Form.Group controlId='mobile'>
+          <Form.Label>Mobile No.</Form.Label>
+          <Form.Control
+            type='Number'
+            placeholder='Enter Mobile no.'
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
 
             <Form.Group controlId='email'>
               <Form.Label>Email Address</Form.Label>
