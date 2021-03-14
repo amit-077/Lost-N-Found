@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
+import {useParams} from 'react-router-dom';
 
 const HomeScreen = ({ match }) => {
 	const keyword = match.params.keyword || '';
@@ -20,8 +21,13 @@ const HomeScreen = ({ match }) => {
 	const { loading, error, products, page, pages } = productList;
 
 	useEffect(() => {
+		if(keyword != 'products') 
 		dispatch(listProducts(keyword));
 	}, [dispatch, keyword]);
+
+	useEffect(() => {
+		console.log(keyword);
+	}, [keyword])
 
 	return (
 		<>
