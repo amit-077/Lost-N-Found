@@ -6,17 +6,17 @@ const question = [
     {
       user : "A",
       questions : [
-        {content : "how are u" , type : "text" , ans : "i am fine"} ,
-        {content : "what are u doing" , type : "text" , ans : "nothing"} , 
-        {content : "how old" , type : "number" , ans : 12}
+        {content : "Where did you lost your item" , type : "text" , ans : "I guess at station while returning from office"} ,
+        {content : "Around what time do u think u lost?" , type : "time" , ans : "7:34 pm"} , 
+        {content : "Describe your item?" , type : "text-area" , ans : "It is 2 year old. Its white in colour. It has some sratches on the back.It has little crack on the bottom."}
       ]
     },
     {
       user : "B",
       questions : [
-        {content : "how are u" , type : "text" , ans : "i am fine"} ,
-        {content : "what are u doing" , type : "text" , ans : "nothing"} , 
-        {content : "how old" , type : "number" , ans : 12}
+        {content : "Where did you lost your item" , type : "text" , ans : "At Siddhivinayak temple entrance"} ,
+        {content : "Around what time do u think u lost?" , type : "time" , ans : "8:00pm"} , 
+        {content : "Describe your item?" , type : "text-area" , ans : "It is 2 year old. Its white in colour. It has some sratches on the back.It has little crack on the bottom." }
       ]
     }
   ]
