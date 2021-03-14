@@ -12,6 +12,8 @@ const RegisterScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [mobile, setMobile] = useState('');
+
   const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
@@ -60,6 +62,16 @@ const RegisterScreen = ({ location, history }) => {
             placeholder='Enter email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='mobile'>
+          <Form.Label>Mobile No.</Form.Label>
+          <Form.Control
+            type='Number'
+            placeholder='Enter Mobile no.'
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
