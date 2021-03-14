@@ -9,45 +9,20 @@ import {
 
 const questions = [
   {
-    content: "How are you",
+    content: "Where did you lost your item",
     type: "text",
-    ans: " "
+    ans: ""
   },
   {
-    content: "what is time ? ",
+    content: "Around what time do u think u lost? ",
     type: "time",
     ans: ""
   },
   {
-    content: "how are you doing?",
-    type: "number",
-    ans: ""
-  },
-  {
-    content: "enter mail?",
-    type: "email",
-    ans: ""
-  },
-  {
-    content: "enter password?",
-    type: "password",
-    ans: ""
-  },
-  {
-    content: "enter ",
-    type: "file",
-    ans: ""
-  },
-  {
-    content: "How",
+    content: "Describe your item?",
     type: "text-area",
     ans: ""
   },
-  {
-    content: "enter date",
-    type: "date",
-    ans: ""
-  }
 ];
 
 //Array from server
