@@ -15,6 +15,8 @@ import ApplicationComponent from '../components/ApplicationComponent'
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import MyMap from '../components/map/map2';
+import ViewApp from '../components/ViewApp'
+
 
 const myAppName = "LOST N FOUND";
 const myDescription = "";
@@ -218,12 +220,15 @@ const ProductScreen = ({ history, match }) => {
                     <Message variant='danger'>{errorProductReview}</Message>
                   )}
                   {userInfo ? (
-                    userName === founder ? <Button
+                    userName === founder ? (<div>
+                      <Button
                       onClick={addToCartHandler}
                       className='btn-block'
                       type='button'
-                      disabled={product.countInStock === 0}
-                    >View Applications</Button> :<ApplicationComponent />
+                      // disabled={product.countInStock === 0}
+                    >View Applications</Button>
+                    <ViewApp />
+                    </div>) :<ApplicationComponent />
                   ) : (
                     <Message>
                       Please <Link to='/login'>sign in</Link> to write a review{' '}
