@@ -23,26 +23,26 @@ export const ProductSchema = `
     }
 
     input ProductInput {
-        name: String
+        name: String!
         user: ID!
-        image: String
-        brand: String
-        category: ID
-        subcategory: ID
-        questions: [QuestionInput!]
+        image: String!
+        brand: String!
+        category: ID!
+        subcategory: ID!
+        questions: [QuestionInput!]!
         description: String!
-        location: locationInput
+        location: locationInput!
     }
 
     input updateProduct {
-        name: String
-        user: ID
-        image: String
-        brand: String
-        category: ID
-        subcategory: ID
-        questions: [QuestionInput!]
-        description: String
-        location: locationInput
+        name: String!
+        user: ID!
+        image: String!
+        brand: String!
+        category: ID!
+        subcategory: ID!
+        questions: [QuestionInput!]!
+        description: String!
+        location: locationInput!
     }
 `;

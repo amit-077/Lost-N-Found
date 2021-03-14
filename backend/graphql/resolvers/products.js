@@ -6,28 +6,26 @@ import { admin, loggedin } from '../../utils/verifyUser.js';
 // private/admin
 const createProduct = async (args, req) => {
   try {
-    if (loggedin(req)) {
-      const newBrand = new Brand({
-        name: args.productInput.brand,
-      });
+    const newBrand = new Brand({
+      name: args.productInput.brand,
+    });
 
-      const resp = await newBrand.save();
+    const resp = await newBrand.save();
 
-      const product = new Product({
-        user: req.user._id,
-        name: args.productInput.name,
-        image: args.productInput.image,
-        brand: resp._id,
-        category: args.productInput.category,
-        subcategory: args.productInput.subcategory,
-        questions: args.productInput.questions,
-        location: args.productInput.location,
-        description: args.productInput.description,
-      });
+    const product = new Product({
+      user: args.productInput.user,
+      name: args.productInput.name,
+      image: args.productInput.image,
+      brand: resp._id,
+      category: args.productInput.category,
+      subcategory: args.productInput.subcategory,
+      questions: args.productInput.questions,
+      location: args.productInput.location,
+      description: args.productInput.description,
+    });
 
-      const res = await product.save();
-      return res;
-    }
+    const res = await product.save();
+    return res;
   } catch (err) {
     console.log(err);
     throw err;

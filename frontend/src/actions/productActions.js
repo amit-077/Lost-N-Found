@@ -191,7 +191,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	}
 };
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch, getState) => {
 	try {
 		dispatch({
 			type: PRODUCT_CREATE_REQUEST,
@@ -208,53 +208,13 @@ export const createProduct = () => async (dispatch, getState) => {
 			},
 		};
 
-		const dummy = {
-			user: userInfo._id,
-			name: '',
-			image: '',
-			brand: '',
-			category: 'Miscellaneous',
-			subcategory: 'default',
-			questions: '',
-			location: {
-				type: 'Point',
-				coordinates: [19.076, 72.8777],
-			},
-			description: '',
-		};
-
 		const { data } = await axios.post(
 			`http://localhost:5000/graphql`,
 			JSON.stringify({
 				query: ` 
-					mutation { createProduct (productInput: "${dummy}") {
+					mutation { createProduct (productInput: ${product}) {
 					_id
 					name
-					user {
-						_id
-						name
-						phoneNo
-					}
-					image
-					brand {
-						_id
-						name
-					}
-					category {
-						_id
-						name
-					}
-					questions {
-						_id
-						question
-						ans
-						type
-					}
-					description
-					location {
-						type
-						coordinates
-					}
 				}
 				}
 			`,

@@ -60,11 +60,11 @@ function Create() {
           <option value="time">Time</option>
         </Form.Control>
       </Form.Group>
-      <Button variant="primary" onClick={onClick}>
+      <Button variant='primary' onClick={onClick}>
         Add
       </Button>
 
-      <Button variant="primary" type="submit">
+      <Button variant="success" type="submit" style={{margin: '1rem'}}>
         Submit
       </Button>
 
