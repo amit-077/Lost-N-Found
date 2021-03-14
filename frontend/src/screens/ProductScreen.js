@@ -1,57 +1,65 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
-import Rating from '../components/Rating'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import Meta from '../components/Meta'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  listProductDetails,
-  createProductReview,
-} from '../actions/productActions'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
-import ApplicationComponent from '../components/ApplicationComponent'
+	Row,
+	Col,
+	Image,
+	ListGroup,
+	Card,
+	Button,
+	Form,
+} from 'react-bootstrap';
+import Rating from '../components/Rating';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+import Meta from '../components/Meta';
+import {
+	listProductDetails,
+	createProductReview,
+} from '../actions/productActions';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import ApplicationComponent from '../components/ApplicationComponent';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import MyMap from '../components/map/map2';
-import ViewApp from '../components/ViewApp'
+import ViewApp from '../components/ViewApp';
 
-
-const myAppName = "LOST N FOUND";
-const myDescription = "";
-const myColor = "#343a40";
+const myAppName = 'LOST N FOUND';
+const myDescription = '';
+const myColor = '#343a40';
 
 const paymentHandler = async (amnt) => {
 	const orderAmount = amnt;
-  const API_URL = 'http://localhost:5000/'
-  // e.preventDefault();
-  const orderUrl = `${API_URL}order`;
-  const response = await axios.get(orderUrl,
-     { params: { amount: orderAmount } });
-  const { data } = response;
-  const options = {
-    key: process.env.RAZOR_PAY_TEST_KEY,
-    name: myAppName,
-    description: myDescription,
-    order_id: data.id,
-    
-    handler: async (response) => {
-      try {
-       const paymentId = response.razorpay_payment_id;
-       const url = `${API_URL}capture/${paymentId}`;
-       const captureResponse = await axios.post(url, {})
-       console.log(captureResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    theme: {
-      color: myColor,
-    },
-  };
-  const rzp1 = new window.Razorpay(options);
-  rzp1.open();
+	const API_URL = 'http://localhost:5000/';
+	// e.preventDefault();
+	const orderUrl = `${API_URL}order`;
+	const response = await axios.get(orderUrl, {
+		params: { amount: orderAmount },
+	});
+	const { data } = response;
+	const options = {
+		key: process.env.RAZOR_PAY_TEST_KEY,
+		name: myAppName,
+		description: myDescription,
+		order_id: data.id,
+
+		handler: async (response) => {
+			try {
+				const paymentId = response.razorpay_payment_id;
+				const url = `${API_URL}capture/${paymentId}`;
+				const captureResponse = await axios.post(url, {});
+				console.log(captureResponse.data);
+			} catch (err) {
+				console.log(err);
+			}
+		},
+		theme: {
+			color: myColor,
+		},
+	};
+	const rzp1 = new window.Razorpay(options);
+	rzp1.open();
 };
 
 const handleGift = () => {
@@ -61,18 +69,20 @@ const handleGift = () => {
 		allowOutsideClick: false,
 		allowEscapeKey: false,
 		// progressSteps: ['1']
-	}).queue([
-		{
-			title: 'Show your love',
-			text: 'Enter the amount'
-		},
-	]).then((result) => {
-		if (result.value) {
-			const answers = result.value;
-			console.log(answers[0]);		
-			paymentHandler(answers[0]);
-	 	}
-  })
+	})
+		.queue([
+			{
+				title: 'Show your love',
+				text: 'Enter the amount',
+			},
+		])
+		.then((result) => {
+			if (result.value) {
+				const answers = result.value;
+				console.log(answers[0]);
+				paymentHandler(answers[0]);
+			}
+		});
 };
 
 const ProductScreen = ({ history, match }) => {
@@ -223,7 +233,11 @@ const ProductScreen = ({ history, match }) => {
                     <Message variant='danger'>{errorProductReview}</Message>
                   )}
                   {userInfo ? (
-                    userName === founder ? (<div>
+										product &&
+										product.user &&
+										product.user.email &&
+										userInfo.email ===
+											product.user.email ? (<div>
                       <Button
                       onClick={addToCartHandler}
                       className='btn-block'

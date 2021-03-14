@@ -6,7 +6,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
 import {
-	listProducts,
+	listTopProducts,
 	deleteProduct,
 	createProduct,
 } from '../actions/productActions';
@@ -17,8 +17,8 @@ const ProductListScreen = ({ history, match }) => {
 
 	const dispatch = useDispatch();
 
-	const productList = useSelector((state) => state.productList);
-	const { loading, error, products } = productList;
+	const productTopRated = useSelector((state) => state.productTopRated);
+	const { loading, error, products } = productTopRated;
 
 	const productDelete = useSelector((state) => state.productDelete);
 	const {
@@ -48,7 +48,7 @@ const ProductListScreen = ({ history, match }) => {
 		if (successCreate) {
 			history.push(`/admin/product/${createdProduct._id}/edit`);
 		} else {
-			dispatch(listProducts());
+			dispatch(listTopProducts());
 		}
 	}, [
 		dispatch,
@@ -114,9 +114,8 @@ const ProductListScreen = ({ history, match }) => {
 								<tr key={product._id}>
 									<td>{product._id}</td>
 									<td>{product.name}</td>
-									<td>${product.price}</td>
-									<td>{product.category}</td>
-									<td>{product.brand}</td>
+									<td>{product.user.name}</td>
+									<td>{product.category.name}</td>
 									<td>
 										<LinkContainer
 											to={`/admin/product/${product._id}/edit`}
