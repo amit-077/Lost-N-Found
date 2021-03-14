@@ -164,6 +164,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${userInfo.token}`,
+				'Content-Type': 'application/json',
 			},
 		};
 
@@ -172,7 +173,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			JSON.stringify({
 				query: `
 				{
-					getUserById (userId: ${id}) {
+					getUserById (userId: "${id}") {
 						_id
 						name
 						phoneNo
