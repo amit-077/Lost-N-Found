@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, Container, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Side.css"
 import MyMap from './map/map';
 import axios from 'axios';
 
 function Side() {
+  let history = useHistory();
+
   const pickUpInit = {address:'', lat:0, lng:0};
   const [pickUp,setPickUp] = useState(pickUpInit);
   const dropInit = {address:'', lat:0, lng:0};
@@ -13,6 +15,12 @@ function Side() {
   const [mapInit, setMapInit] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+
+  const [myFilter, setMyfilter] = useState({
+    location: {lat:0, lng:0},
+    category: '',
+    brand: ''
+  });
 
   useEffect(() => {
     var data = JSON.stringify({
@@ -84,15 +92,8 @@ function Side() {
     .then(function (response) {
       let myData = [], myBrands = [];
       myData = response.data.data.getProducts;
-      for(let i=0;i<myData.length;i++) {
-        let flag = 0;
-        for(let j=0;j<myBrands.length;j++) {
-          if(myData[i].brand.name == myBrands[j]) {
-            flag=-1;
-            break;
-          }
-        }
-        if(flag == 0) myBrands.push(myData[i].brand);
+      for(let i=1;i<myData.length;i++) {
+        myBrands.push(myData[i].brand);
       }
       setBrands(myBrands);
     })
@@ -101,9 +102,19 @@ function Side() {
     });
 }, [])
 
-  const brandButton = brands.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
+  const brandButton = brands.map((brand) => <Button className='acc-button' key={brand.name}
+  onClick={() => setMyfilter({...myFilter, brand: brand.name})}
+  >{brand.name}</Button>);
 
-  const categoriesButton = categories && categories.map((brand) => <Button className='acc-button' key={brand.name}>{brand.name}</Button>);
+  const categoriesButton = categories && categories.map((brand) => <Button className='acc-button' key={brand.name}
+  onClick={() => setMyfilter({...myFilter, category: brand.name})}
+  >{brand.name}</Button>);
+
+  useEffect(() => {
+    if(pickUp.lat !== 0 || myFilter.category !== '' || myFilter.brand !== '') {
+      history.push(`/search/filters=${myFilter.category}+${myFilter.brand}+${pickUp.lat}+${pickUp.lng}`)
+    }
+  }, [myFilter, pickUp])
 
 
   const [sidebar, setSidebar] = useState(false);
