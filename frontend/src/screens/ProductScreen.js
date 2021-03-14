@@ -177,7 +177,7 @@ const ProductScreen = ({ history, match }) => {
 
                   <ListGroup.Item>
                     <Button
-                      onClick={() => handleChat(product.user.phoneNo)}
+                      onClick={() => handleChat(product && product.user && product.user.phoneNo)}
                       className='btn-block'
                       type='button'
                     >

@@ -35,7 +35,7 @@ export const listProducts = (keyword = '') => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `{
 				searchProduct (searchTerm: "${keyword}") {
