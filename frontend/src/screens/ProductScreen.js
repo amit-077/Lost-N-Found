@@ -76,8 +76,6 @@ const handleGift = () => {
 const ProductScreen = ({ history, match }) => {
   const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
   const [pickUp,setPickUp] = useState(pickUpInit);
-
-  const [call,setCall] = useState({});
   
   //Email id of User Logged In
   const [userName,setUsername] = useState("")
@@ -127,7 +125,12 @@ const ProductScreen = ({ history, match }) => {
     )
   }
 
-  const handleChat = () => {
+  useEffect(() => {
+    if(product.location)
+    setPickUp({lat: product.location.coordinates[0],lng: product.location.coordinates[1]});
+  }, [product])
+
+  const handleChat = (call) => {
     window.location.href=`tel:+${call}`;
   };
 
@@ -165,14 +168,14 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Founder:</Col>
                       <Col>
-                        <strong>{founder}</strong>
+                        <strong>{product.user && product.user.name}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Button
-                      onClick={() => handleChat()}
+                      onClick={() => handleChat(product.user.phoneNo)}
                       className='btn-block'
                       type='button'
                     >
