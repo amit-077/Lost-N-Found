@@ -100,11 +100,11 @@ export const listProductDetails = (id) => async (dispatch) => {
 			},
 		};
 
-		const { data } = await axios.get(
-			`/graphql`,
+		const { data } = await axios.post(
+			`http://localhost:5000/graphql`,
 			JSON.stringify({
 				query: ` {
-				getProductById (id: ${id}) {
+				getProductById (id: "${id}") {
 					_id
 					name
 					user {
@@ -138,10 +138,11 @@ export const listProductDetails = (id) => async (dispatch) => {
 			}),
 			config
 		);
+		console.log(data.data.getProductById);
 
 		dispatch({
 			type: PRODUCT_DETAILS_SUCCESS,
-			payload: data,
+			payload: data.data.getProductById[0],
 		});
 	} catch (error) {
 		dispatch({
@@ -322,7 +323,7 @@ export const listTopProducts = () => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{

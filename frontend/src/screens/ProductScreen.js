@@ -78,8 +78,6 @@ const handleGift = () => {
 const ProductScreen = ({ history, match }) => {
   const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
   const [pickUp,setPickUp] = useState(pickUpInit);
-
-  const [call,setCall] = useState({});
   
   //Email id of User Logged In
   const [userName,setUsername] = useState("")
@@ -109,7 +107,7 @@ const ProductScreen = ({ history, match }) => {
       setRating(0)
       setComment('')
     }
-    if (!product._id || product._id !== match.params.id) {
+    if (product && (!product._id || product._id !== match.params.id)) {
       dispatch(listProductDetails(match.params.id))
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
@@ -129,7 +127,12 @@ const ProductScreen = ({ history, match }) => {
     )
   }
 
-  const handleChat = () => {
+  useEffect(() => {
+    if(product && product.location)
+    setPickUp({lat: product.location.coordinates[0],lng: product.location.coordinates[1]});
+  }, [product])
+
+  const handleChat = (call) => {
     window.location.href=`tel:+${call}`;
   };
 
@@ -144,19 +147,19 @@ const ProductScreen = ({ history, match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Meta title={product.name} />
+          <Meta title={product && product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={product && product.image} alt={product && product.name} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{product && product.name}</h3>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Description: {product.description}
+                  Description: {product && product.description}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -167,14 +170,14 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Founder:</Col>
                       <Col>
-                        <strong>{founder}</strong>
+                        <strong>{product && product.user && product.user.name}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Button
-                      onClick={() => handleChat()}
+                      onClick={() => handleChat(product.user.phoneNo)}
                       className='btn-block'
                       type='button'
                     >
