@@ -68,7 +68,7 @@ export const listProductDetails = (id) => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			`/graphql`,
+			`http://localhost:5000/graphql`,
 			JSON.stringify({
 				query: ` {
 				getProductById (id: "${id}") {
@@ -286,7 +286,7 @@ export const listTopProducts = () => async (dispatch) => {
 		};
 
 		const { data } = await axios.post(
-			'/graphql',
+			'http://localhost:5000/graphql',
 			JSON.stringify({
 				query: `
 				{

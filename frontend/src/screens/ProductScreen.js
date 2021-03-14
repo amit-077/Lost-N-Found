@@ -107,7 +107,7 @@ const ProductScreen = ({ history, match }) => {
       setRating(0)
       setComment('')
     }
-    if (!product._id || product._id !== match.params.id) {
+    if (product && (!product._id || product._id !== match.params.id)) {
       dispatch(listProductDetails(match.params.id))
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
@@ -128,7 +128,7 @@ const ProductScreen = ({ history, match }) => {
   }
 
   useEffect(() => {
-    if(product.location)
+    if(product && product.location)
     setPickUp({lat: product.location.coordinates[0],lng: product.location.coordinates[1]});
   }, [product])
 
@@ -147,19 +147,19 @@ const ProductScreen = ({ history, match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Meta title={product.name} />
+          <Meta title={product && product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={product && product.image} alt={product && product.name} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3>{product && product.name}</h3>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Description: {product.description}
+                  Description: {product && product.description}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -170,7 +170,7 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Founder:</Col>
                       <Col>
-                        <strong>{product.user && product.user.name}</strong>
+                        <strong>{product && product.user && product.user.name}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
