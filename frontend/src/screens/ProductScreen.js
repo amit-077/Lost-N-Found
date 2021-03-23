@@ -86,179 +86,207 @@ const handleGift = () => {
 };
 
 const ProductScreen = ({ history, match }) => {
-  const pickUpInit = {address:'', lat:19.0760, lng:72.8777};
-  const [pickUp,setPickUp] = useState(pickUpInit);
-  
-  //Email id of User Logged In
-  const [userName,setUsername] = useState("")
-  const founder = ""
+	const pickUpInit = { address: '', lat: 19.076, lng: 72.8777 };
+	const [pickUp, setPickUp] = useState(pickUpInit);
 
-  const [qty, setQty] = useState(1)
-  const [rating, setRating] = useState(0)
-  const [comment, setComment] = useState('')
+	//Email id of User Logged In
+	const [userName, setUsername] = useState('');
+	const founder = '';
 
-  const dispatch = useDispatch()
+	const [qty, setQty] = useState(1);
+	const [rating, setRating] = useState(0);
+	const [comment, setComment] = useState('');
 
-  const productDetails = useSelector((state) => state.productDetails)
-  const { loading, error, product } = productDetails
+	const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+	const productDetails = useSelector((state) => state.productDetails);
+	const { loading, error, product } = productDetails;
 
-  const productReviewCreate = useSelector((state) => state.productReviewCreate)
-  const {
-    success: successProductReview,
-    loading: loadingProductReview,
-    error: errorProductReview,
-  } = productReviewCreate
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
 
-  useEffect(() => {
-    if (successProductReview) {
-      setRating(0)
-      setComment('')
-    }
-    if (product && (!product._id || product._id !== match.params.id)) {
-      dispatch(listProductDetails(match.params.id))
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
-    }
-  }, [dispatch, match, successProductReview])
+	const productReviewCreate = useSelector(
+		(state) => state.productReviewCreate
+	);
+	const {
+		success: successProductReview,
+		loading: loadingProductReview,
+		error: errorProductReview,
+	} = productReviewCreate;
 
-  const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`)
-  }
+	useEffect(() => {
+		if (successProductReview) {
+			setRating(0);
+			setComment('');
+		}
+		if (product && (!product._id || product._id !== match.params.id)) {
+			dispatch(listProductDetails(match.params.id));
+			dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+		}
+	}, [dispatch, match, successProductReview]);
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    dispatch(
-      createProductReview(match.params.id, {
-        rating,
-        comment,
-      })
-    )
-  }
+	const addToCartHandler = () => {
+		history.push('/login');
+	};
 
-  useEffect(() => {
-    if(product && product.location)
-    setPickUp({lat: product.location.coordinates[0],lng: product.location.coordinates[1]});
-  }, [product])
+	const submitHandler = (e) => {
+		e.preventDefault();
+		dispatch(
+			createProductReview(match.params.id, {
+				rating,
+				comment,
+			})
+		);
+	};
 
-  const handleChat = (call) => {
-    window.location.href=`tel:+${call}`;
-  };
+	useEffect(() => {
+		if (product && product.location)
+			setPickUp({
+				lat: product.location.coordinates[0],
+				lng: product.location.coordinates[1],
+			});
+	}, [product]);
 
-  return (
-    <>
-      <Link className='btn btn-light my-3' to='/'>
-        Go Back
-      </Link>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <>
-          <Meta title={product && product.name} />
-          <Row>
-            <Col md={6}>
-              <Image src={product && product.image} alt={product && product.name} fluid />
-            </Col>
-            <Col md={3}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>{product && product.name}</h3>
-                </ListGroup.Item>
+	const handleChat = (call) => {
+		window.location.href = `tel:+${call}`;
+	};
 
-                <ListGroup.Item>
-                  Description: {product && product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={3}>
-              <Card>
-                <ListGroup variant='flush'>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Founder:</Col>
-                      <Col>
-                        <strong>{product && product.user && product.user.name}</strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
+	return (
+		<>
+			<Link className="btn btn-light my-3" to="/">
+				Go Back
+			</Link>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">{error}</Message>
+			) : (
+				<>
+					<Meta title={product && product.name} />
+					<Row>
+						<Col md={6}>
+							<Image
+								src={product && product.image}
+								alt={product && product.name}
+								fluid
+							/>
+						</Col>
+						<Col md={3}>
+							<ListGroup variant="flush">
+								<ListGroup.Item>
+									<h3>{product && product.name}</h3>
+								</ListGroup.Item>
 
-                  <ListGroup.Item>
-                    <Button
-                      onClick={() => handleChat(product && product.user && product.user.phoneNo)}
-                      className='btn-block'
-                      type='button'
-                    >
-                      <i class="fas fa-phone fa-lg" /> &nbsp;Contact Founder
-                    </Button>
-                  </ListGroup.Item>
+								<ListGroup.Item>
+									Description:{' '}
+									{product && product.description}
+								</ListGroup.Item>
+							</ListGroup>
+						</Col>
+						<Col md={3}>
+							<Card>
+								<ListGroup variant="flush">
+									<ListGroup.Item>
+										<Row>
+											<Col>Founder:</Col>
+											<Col>
+												<strong>
+													{product &&
+														product.user &&
+														product.user.name}
+												</strong>
+											</Col>
+										</Row>
+									</ListGroup.Item>
 
-                  <ListGroup.Item>
-                    <Button
-                      onClick={() => handleGift()}
-                      className='btn-block'
-                      type='button'
-                    >
-                      <i class="fas fa-gift fa-lg" /> &nbsp;Gift Founder
-                    </Button>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card>
-              <br />
-              <Card>
-                <ListGroup variant='flush'>
-                    <MyMap
-                      pU={pickUp} 
-                    />
-                 </ListGroup>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              
-              <ListGroup variant='flush'>
-                
-                <ListGroup.Item>
-                  <h2>Product Claim Form</h2>
-                  {successProductReview && (
-                    <Message variant='success'>
-                      Application submitted successfully
-                    </Message>
-                  )}
-                  {loadingProductReview && <Loader />}
-                  {errorProductReview && (
-                    <Message variant='danger'>{errorProductReview}</Message>
-                  )}
-                  {userInfo ? (
+									<ListGroup.Item>
+										<Button
+											onClick={() =>
+												handleChat(
+													product &&
+														product.user &&
+														product.user.phoneNo
+												)
+											}
+											className="btn-block"
+											type="button"
+										>
+											<i class="fas fa-phone fa-lg" />{' '}
+											&nbsp;Contact Founder
+										</Button>
+									</ListGroup.Item>
+
+									<ListGroup.Item>
+										<Button
+											onClick={() => handleGift()}
+											className="btn-block"
+											type="button"
+										>
+											<i class="fas fa-gift fa-lg" />{' '}
+											&nbsp;Gift Founder
+										</Button>
+									</ListGroup.Item>
+								</ListGroup>
+							</Card>
+							<br />
+							<Card>
+								<ListGroup variant="flush">
+									<MyMap pU={pickUp} />
+								</ListGroup>
+							</Card>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+							<ListGroup variant="flush">
+								<ListGroup.Item>
+									<h2>Product Claim Form</h2>
+									{successProductReview && (
+										<Message variant="success">
+											Application submitted successfully
+										</Message>
+									)}
+									{loadingProductReview && <Loader />}
+									{errorProductReview && (
+										<Message variant="danger">
+											{errorProductReview}
+										</Message>
+									)}
+									{userInfo ? (
 										product &&
 										product.user &&
 										product.user.email &&
 										userInfo.email ===
-											product.user.email ? (<div>
-                      <Button
-                      onClick={addToCartHandler}
-                      className='btn-block'
-                      type='button'
-                      // disabled={product.countInStock === 0}
-                    >View Applications</Button>
-                    <ViewApp />
-                    </div>) :<ApplicationComponent />
-                  ) : (
-                    <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review{' '}
-                    </Message>
-                  )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
-        </>
-      )}
-    </>
-  )
-}
+											product.user.email ? (
+											<div>
+												<Button
+													onClick={addToCartHandler}
+													className="btn-block"
+													type="button"
+													// disabled={product.countInStock === 0}
+												>
+													View Applications
+												</Button>
+												<ViewApp />
+											</div>
+										) : (
+											<ApplicationComponent />
+										)
+									) : (
+										<Message>
+											Please{' '}
+											<Link to="/login">sign in</Link> to
+											write a review{' '}
+										</Message>
+									)}
+								</ListGroup.Item>
+							</ListGroup>
+						</Col>
+					</Row>
+				</>
+			)}
+		</>
+	);
+};
 
-export default ProductScreen
+export default ProductScreen;

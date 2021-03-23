@@ -150,12 +150,7 @@ const Header = () => {
 								<NavDropdown title="Navigate" id="adminmenu">
 									<LinkContainer to="/admin/productlist">
 										<NavDropdown.Item>
-											Products
-										</NavDropdown.Item>
-									</LinkContainer>
-									<LinkContainer to="/admin/orderlist">
-										<NavDropdown.Item>
-											Orders
+											Listings
 										</NavDropdown.Item>
 									</LinkContainer>
 								</NavDropdown>
